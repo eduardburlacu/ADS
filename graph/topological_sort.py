@@ -40,7 +40,13 @@ def topological_sort_kahn(graph:Dict[int, Set[int]]):
         if degree == 0:
             queue.append(node)
 
+    counter, V = 0, len(graph)
     while(len(queue))>0:
+        counter += 1
+        if counter>V:
+            # the graph contains a cycle, return only
+            # the DAG subpart before the cycle
+            return top_sort
         src = queue.popleft()
         top_sort.append(src)
         for neighbor in graph[src]:
