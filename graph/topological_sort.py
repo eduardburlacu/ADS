@@ -1,5 +1,5 @@
 from typing import  Dict, Set, Literal
-
+from collections import deque
 
 def topological_sort(graph:Dict[int, Set[int]], mode:Literal["dfs", "kahn"]):
     if mode == "dfs":
@@ -27,8 +27,28 @@ def topological_sort_dfs(graph:Dict[int, Set[int]]):
     return parents
 
 def topological_sort_kahn(graph:Dict[int, Set[int]]):
-    ...
-    return
+    #Compute in-degree in O(E)
+    in_degree = [0] * len(graph)
+    queue = deque()
+    top_sort = []
+    for node in graph:
+        for neighbor in graph[node]:
+            in_degree[neighbor] += 1
+
+    #Find and cache sources in O(V)
+    for node, degree in enumerate(in_degree):
+        if degree == 0:
+            queue.append(node)
+
+    while(len(queue))>0:
+        src = queue.popleft()
+        top_sort.append(src)
+        for neighbor in graph[src]:
+            in_degree[neighbor] -= 1
+            if in_degree[neighbor]==0:
+                queue.append(neighbor)
+    return top_sort
+
 
 if __name__=="__main__":
     dag = { 0:set() , 1: {0}, 2: {0}, 3: {1, 2},
@@ -36,4 +56,4 @@ if __name__=="__main__":
             8: {7}, 9: {8}, 10:set()
             }
     print(topological_sort(dag, "dfs")) # [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0]g
-    #print(topological_sort(dag, "kahn"))
+    print(topological_sort(dag, "kahn"))
