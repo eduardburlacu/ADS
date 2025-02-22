@@ -21,6 +21,16 @@ def insert(arr:list[int], key:int) -> None:
         i, parent = parent, (parent-1)//2
     return arr
 
+def update_key(arr:list[int], i:int, key:int) -> None:
+    if key<arr[i]:
+        arr[i] = key
+        heapify(arr,i,len(arr)) # neet downwards update aka heapify
+    elif key>arr[i]:
+        arr[i] = key
+        parent = (i-1)//2
+        while arr[parent]<arr[i]:
+            arr[parent], arr[i] = arr[i], arr[parent]
+            i, parent = parent, (parent-1)//2
 
 if __name__=="__main__":
     heap = [4,10,3,5,1]
@@ -28,9 +38,15 @@ if __name__=="__main__":
     i = 0
     heapify(heap,i,heapsize)
     print(heap) # [10, 5, 3, 4, 1]
+
     i = 4
     heapify(heap,i,heapsize)
     print(heap) # [10, 5, 3, 4, 1]
     key=15
     insert(heap,key)
     print(heap) # [15, 10, 3, 5, 1, 4]
+
+    i = 0
+    key = 2
+    update_key(heap,i,key)
+    print(heap) # [10, 5, 3, 4, 1, 2]
