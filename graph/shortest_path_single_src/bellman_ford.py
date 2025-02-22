@@ -8,15 +8,15 @@ def bellman_ford(
     dist = [float("inf")]*V
     dist[source] = 0.
     ps = [None]*V
-    for _ in range(V-1):
+    for _ in range(V-1): #O(V * ...)
         for u in range(V):
             for v, w in graph[u]:
-                target = dist[u] + w
-                if dist[v] > target:
+                target = dist[u] + w # O(... * E)
+                if dist[v] > target: # O(... * V)
                     dist[v] = target
                     ps[v] = u
-
-    if detect_negative_cycle:
+    # Total: O(V*E+V**2)
+    if detect_negative_cycle: #O(E)
         for u in range(V):
             for v, w in graph[u]:
                 if dist[v] > dist[u] + w:
