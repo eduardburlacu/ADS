@@ -7,10 +7,15 @@ def heapify(arr:list[int], i:int, heapsize:int) -> None:
         best = left
     if right<heapsize and arr[right] > arr[best]:
         best = right
-
     if best!=i:
         arr[i],arr[best] = arr[best],arr[i]
         heapify(arr,best,heapsize)
+
+def build_max_heap(arr:list[int]) -> None:
+    heapsize = len(arr)
+    for i in range((heapsize-1)//2, -1, -1):
+        print(i)
+        heapify(arr, i, heapsize)
 
 def insert(arr:list[int], key:int) -> None:
     arr.append(key)
@@ -33,6 +38,11 @@ def update_key(arr:list[int], i:int, key:int) -> None:
             i, parent = parent, (parent-1)//2
 
 if __name__=="__main__":
+
+    array = [4, 10, 3, 5, 1, 2, 6, 7]
+    build_max_heap(array)
+    print(array) # [10, 7, 6, 5, 1, 2, 3, 4]
+
     heap = [4,10,3,5,1]
     heapsize = len(heap)
     i = 0
@@ -50,3 +60,6 @@ if __name__=="__main__":
     key = 2
     update_key(heap,i,key)
     print(heap) # [10, 5, 3, 4, 1, 2]
+
+    heap.append(0)
+    print(heap[len(heap)//2:]) # [4, 1, 2, 0]
