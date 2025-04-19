@@ -2,15 +2,15 @@ from collections import deque
 from typing import Dict, Set
 
 def dfs(graph: Dict[int,Set[int]],source:int):
-    visited = set()
-    queue = deque()
-    queue.append(source)
-    while len(queue)>0:
-        node = queue.pop()
-        visited.add(node)
+    visited = {source}
+    stack = deque()
+    stack.append(source)
+    while len(stack)>0:
+        node = stack.pop()
         for v in graph[node]:
             if v not in visited:
-                queue.append(v)
+                visited.add(v)
+                stack.append(v)
     return visited
 
 if __name__ == "__main__":
@@ -20,3 +20,7 @@ if __name__ == "__main__":
     print(dfs(graph, 2)) # {2, 3, 4}
     print(dfs(graph, 3)) # {3, 4}
     print(dfs(graph, 4)) # {4}
+
+    graph = {0:{1,2}, 1:{3}, 2:{3}, 3:{4}, 4:set()}
+    print(dfs(graph, 0)) # {0, 1, 2, 3, 4}
+
