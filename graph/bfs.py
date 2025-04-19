@@ -1,16 +1,16 @@
 from collections import deque
 from typing import Dict, Set
 
-def bfs(graph: Dict[int,Set[int]],source:int):
-    visited = set()
+def bfs(graph: Dict[int,Set[int]], s:int):
     queue = deque()
-    queue.append(source)
+    queue.appendleft(s)
+    visited = {s}
     while len(queue)>0:
-        node = queue.popleft()
-        visited.add(node)
-        for v in graph[node]:
-            if v not in visited:
-                queue.append(v)
+        node = queue.pop()
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visited.add(neighbor)
+                queue.appendleft(neighbor)
     return visited
 
 if __name__ == "__main__":
