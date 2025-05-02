@@ -84,7 +84,6 @@ if __name__=="__main__":
         4: {3},
         5: {4}
     }
-    kosaraju_scc(dag)
     sccs = kosaraju_scc(dag)
     for scc in sccs:
         print(scc)
